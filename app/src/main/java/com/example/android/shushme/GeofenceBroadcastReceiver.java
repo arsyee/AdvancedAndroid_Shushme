@@ -19,7 +19,11 @@ package com.example.android.shushme;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.util.Log;
+
+import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.GeofencingEvent;
 
 public class GeofenceBroadcastReceiver extends BroadcastReceiver {
 
@@ -36,10 +40,22 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.i(TAG, "onReceive called");
-        // TODO (4) Use GeofencingEvent.fromIntent to retrieve the GeofencingEvent that caused the transition
+        // COMPLETED (4) Use GeofencingEvent.fromIntent to retrieve the GeofencingEvent that caused the transition
+        GeofencingEvent event = GeofencingEvent.fromIntent(intent);
 
-        // TODO (5) Call getGeofenceTransition to get the transition type and use AudioManager to set the
+        // COMPLETED (5) Call getGeofenceTransition to get the transition type and use AudioManager to set the
         // phone ringer mode based on the transition type. Feel free to create a helper method (setRingerMode)
+        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        if (audioManager != null) switch (event.getGeofenceTransition()) {
+            case Geofence.GEOFENCE_TRANSITION_ENTER:
+                audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+                break;
+            case Geofence.GEOFENCE_TRANSITION_EXIT:
+                audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+                break;
+            default:
+                Log.e(TAG, String.format("Unexpected GeofenceEvent: %d", event.getGeofenceTransition()));
+        }
 
         // TODO (6) Show a notification to alert the user that the ringer mode has changed.
         // Feel free to create a helper method (sendNotification)
