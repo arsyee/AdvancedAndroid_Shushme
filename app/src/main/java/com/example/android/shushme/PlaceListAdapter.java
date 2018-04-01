@@ -23,18 +23,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.location.places.PlaceBuffer;
+
 public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.PlaceViewHolder> {
 
+    private PlaceBuffer mPlaces;
     private Context mContext;
 
     /**
      * Constructor using the context and the db cursor
      *
      * @param context the calling context/activity
+     * @param place
      */
-    public PlaceListAdapter(Context context) {
-        // TODO (4) Take a PlaceBuffer as an input and store it as a local private member mPlaces
+    public PlaceListAdapter(Context context, PlaceBuffer place) {
+        // COMPLETED (4) Take a PlaceBuffer as an input and store it as a local private member mPlaces
         this.mContext = context;
+        this.mPlaces = place;
     }
 
     /**
@@ -60,11 +65,19 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.Plac
      */
     @Override
     public void onBindViewHolder(PlaceViewHolder holder, int position) {
-        // TODO (6) Implement onBindViewHolder to set the view holder's Name and Address text fields
+        // COMPLETED (6) Implement onBindViewHolder to set the view holder's Name and Address text fields
         // from the Place object at the specified position in mPlaces
+        holder.nameTextView.setText(mPlaces.get(position).getName());
+        holder.addressTextView.setText(mPlaces.get(position).getAddress());
     }
 
-    //TODO (7) Implement a public method swapPlaces that replaces the current mPlaces PlaceBuffer with a new one
+    // COMPLETED (7) Implement a public method swapPlaces that replaces the current mPlaces PlaceBuffer with a new one
+    public void swapPlaces(PlaceBuffer places) {
+        mPlaces = places;
+        if (mPlaces != null) {
+            notifyDataSetChanged();
+        }
+    }
 
     /**
      * Returns the number of items in the cursor
@@ -73,8 +86,8 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.Plac
      */
     @Override
     public int getItemCount() {
-        // TODO (5) Update getItemCount to return mPlaces's item count
-        return 0;
+        // COMPLETED (5) Update getItemCount to return mPlaces's item count
+        return mPlaces == null ? 0 : mPlaces.getCount();
     }
 
     /**

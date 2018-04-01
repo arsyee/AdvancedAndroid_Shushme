@@ -12,6 +12,7 @@
  limitations under the License.-->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -127,6 +128,28 @@
 
     </LinearLayout>
 
-    <!-- TODO (9) Add the "Powered by Google" logo and a link to Google's privacy policy here -->
+    <!-- COMPLETED (9) Add the "Powered by Google" logo and a link to Google's privacy policy here -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        tools:ignore="UseCompoundDrawables">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="@string/powered_by_google"
+            android:src="@drawable/powered_by_google_light" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:autoLink="web"
+            android:paddingBottom="4dp"
+            android:text="@string/privacy"
+            android:textAlignment="center"/>
+    </LinearLayout>
     
 </RelativeLayout>
